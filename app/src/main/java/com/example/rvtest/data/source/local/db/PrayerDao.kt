@@ -13,6 +13,9 @@ interface PrayerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPrayer(prayer: PrayerEntity)
 
+    @Query("DELETE FROM PrayerEntity WHERE zoneId = :zoneId")
+    suspend fun deletePrayerByZoneId(zoneId: Int)
+
     @Query("SELECT * FROM PrayerEntity WHERE zoneId = :zoneId")
     fun getPrayerByZoneId(zoneId: Int): Flow<PrayerEntity>
 }

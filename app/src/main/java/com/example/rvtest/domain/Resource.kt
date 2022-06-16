@@ -34,7 +34,6 @@ sealed interface Resource<out T> {
     }
 }
 
-object Initial : Resource<Nothing>
 data class Success<out T>(val data: T) : Resource<T>
 data class Loading<out T>(val data: T?) : Resource<T>
 data class Failure<out T>(val data: T?, val message: String) : Resource<T>
