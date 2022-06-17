@@ -12,9 +12,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.rvtest.R
 import com.example.rvtest.databinding.FragmentPrayerTimeBinding
+import com.example.rvtest.domain.Loading
 import com.example.rvtest.domain.model.PrayerTime
 import com.example.rvtest.domain.onFailure
 import com.example.rvtest.extension.onAnimationEnd
+import com.example.rvtest.extension.visibleOrGone
 import com.example.rvtest.extension.visibleOrInvisible
 import com.example.rvtest.utils.DateUtils
 import com.example.rvtest.widget.OnSwipeTouchListener
@@ -150,14 +152,18 @@ class PrayerTimeFragment : Fragment() {
         }
 
         prayerResourceLiveData.observe(viewLifecycleOwner) { resource ->
-            resource.onFailure { data, message ->
-                val isResumed = viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED
-                if (data == null && isResumed) Toast.makeText(
-                    requireContext(),
-                    message,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            binding.progressLoading.visibleOrGone(resource is Loading && resource.data == null)
+
+            resource
+                .onFailure { data, message ->
+                    val isResumed =
+                        viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED
+                    if (data == null && isResumed) Toast.makeText(
+                        requireContext(),
+                        message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
 
         selectedIndexLiveData.observe(viewLifecycleOwner) { index ->
