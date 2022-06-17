@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.rvtest.data.source.local.db.entity.PrayerEntity
 
-@Database(entities = [PrayerEntity::class], version = 1)
+@Database(entities = [PrayerEntity::class], version = 1, exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class PrayerDatabase : RoomDatabase() {
 

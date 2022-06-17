@@ -6,13 +6,17 @@ import java.util.*
 
 object DateUtils {
 
-    val dateResponseFormat = SimpleDateFormat("dd-MM-yyyy")
-
-    fun parseResponseDate(date: String): Date? {
-        return dateResponseFormat.parse(date)
+    fun parseApiDate(dateString: String): Date? {
+        val format = SimpleDateFormat("dd-MM-yyyy")
+        return format.parse(dateString)
     }
 
-    fun isResponseDateToday(date: String): Boolean {
-        return parseResponseDate(date)?.let { DateUtils.isToday(it.time) } ?: true
+    fun isApiDateToday(dateString: String): Boolean {
+        return parseApiDate(dateString)?.let { DateUtils.isToday(it.time) } ?: true
+    }
+
+    fun formatDate(date: Date): String {
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy")
+        return dateFormat.format(date)
     }
 }

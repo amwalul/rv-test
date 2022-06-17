@@ -16,7 +16,7 @@ class PrayerRepository @Inject constructor(
 ) {
 
     fun getPrayer(zoneId: Int) = Resource.networkBoundResource(
-        query = { dao.getPrayerByZoneId(zoneId).map { it.toPrayer() } },
+        query = { dao.getPrayerByZoneId(zoneId).map { it?.toPrayer() } },
         fetch = { apiService.getPrayerTime(zoneId) },
         saveFetchResult = { response ->
             dao.deletePrayerByZoneId(response.zoneId)

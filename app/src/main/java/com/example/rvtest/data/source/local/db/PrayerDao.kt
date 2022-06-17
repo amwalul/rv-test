@@ -17,5 +17,5 @@ interface PrayerDao {
     suspend fun deletePrayerByZoneId(zoneId: Int)
 
     @Query("SELECT * FROM PrayerEntity WHERE zoneId = :zoneId")
-    fun getPrayerByZoneId(zoneId: Int): Flow<PrayerEntity>
+    fun getPrayerByZoneId(zoneId: Int): Flow<PrayerEntity?>
 }
