@@ -8,13 +8,12 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.rvtest.R
 import com.example.rvtest.databinding.FragmentPrayerTimeBinding
-import com.example.rvtest.domain.Failure
-import com.example.rvtest.domain.Loading
-import com.example.rvtest.domain.Success
 import com.example.rvtest.domain.model.PrayerTime
+import com.example.rvtest.domain.onFailure
 import com.example.rvtest.extension.onAnimationEnd
 import com.example.rvtest.extension.visibleOrInvisible
 import com.example.rvtest.utils.DateUtils
@@ -55,27 +54,40 @@ class PrayerTimeFragment : Fragment() {
 
         llContent.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
-                if (!isFirstItem()) showPreviousPrayerTime()
+                val list = viewModel.prayerTimeList
+                if (!isFirstItem() && list.isNotEmpty()) showPreviousPrayerTime()
             }
 
             override fun onSwipeLeft() {
-                if (!isLastItem()) showNextPrayerTime()
+                val list = viewModel.prayerTimeList
+                if (!isLastItem() && list.isNotEmpty()) showNextPrayerTime()
             }
         })
 
         ivPrevious.setOnClickListener {
-            if (!isFirstItem()) showPreviousPrayerTime()
+            val list = viewModel.prayerTimeList
+            if (!isFirstItem() && list.isNotEmpty()) showPreviousPrayerTime()
         }
 
         ivNext.setOnClickListener {
-            if (!isLastItem()) showNextPrayerTime()
+            val list = viewModel.prayerTimeList
+            if (!isLastItem() && list.isNotEmpty()) showNextPrayerTime()
         }
     }
 
-    private fun isFirstItem() = (viewModel.selectedIndexLiveData.value ?: 0) == 0
+    private fun isFirstItem(): Boolean {
+        val selectedIndex = (viewModel.selectedIndexLiveData.value ?: 0)
+        val list = viewModel.prayerTimeList
 
-    private fun isLastItem() =
-        (viewModel.selectedIndexLiveData.value ?: 0) == viewModel.prayerTimeList.lastIndex
+        return list[selectedIndex] == list.first()
+    }
+
+    private fun isLastItem(): Boolean {
+        val selectedIndex = (viewModel.selectedIndexLiveData.value ?: 0)
+        val list = viewModel.prayerTimeList
+
+        return list[selectedIndex] == list.last()
+    }
 
     private fun showPreviousPrayerTime() {
         viewModel.decrementIndex()
@@ -111,25 +123,24 @@ class PrayerTimeFragment : Fragment() {
         tvZoneName.text = name
     }
 
-    private fun setTodayIndex(prayerTimeList: List<PrayerTime>) = binding.apply {
-        val todayPrayerTimeIndex = prayerTimeList.indexOfFirst { prayerTime ->
-            DateUtils.isApiDateToday(prayerTime.date)
-        }
+    private fun setPrayerTime(prayerTime: PrayerTime?) = binding.apply {
+        val date = prayerTime?.date?.let { DateUtils.parseApiDate(it) }
+        tvDate.text = date?.let { DateUtils.formatDate(it) } ?: "-"
 
-        viewModel.setSelectedIndex(todayPrayerTimeIndex)
-    }
-
-    private fun setPrayerTime(prayerTime: PrayerTime) = binding.apply {
-        val date = DateUtils.parseApiDate(prayerTime.date)
-        tvDate.text = date?.let { DateUtils.formatDate(it) }
-
-        with(prayerTime) {
+        prayerTime?.run {
             tvSubuh.text = subuh.uppercase()
             tvSyuruk.text = syuruk.uppercase()
             tvZohor.text = zohor.uppercase()
             tvAsar.text = asar.uppercase()
             tvMaghrib.text = maghrib.uppercase()
             tvIsya.text = isyak.uppercase()
+        } ?: kotlin.run {
+            tvSubuh.text = "-"
+            tvSyuruk.text = "-"
+            tvZohor.text = "-"
+            tvAsar.text = "-"
+            tvMaghrib.text = "-"
+            tvIsya.text = "-"
         }
     }
 
@@ -139,32 +150,18 @@ class PrayerTimeFragment : Fragment() {
         }
 
         prayerResourceLiveData.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Success -> resource.data?.run {
-                    setPrayerTimeList(prayerTimeList)
-
-                    if (selectedIndexLiveData.value == null) setTodayIndex(prayerTimeList)
-                    else reselectIndex()
-                }
-                is Loading -> resource.data?.run {
-                    setPrayerTimeList(prayerTimeList)
-
-                    if (selectedIndexLiveData.value == null) setTodayIndex(prayerTimeList)
-                    else reselectIndex()
-                }
-                is Failure ->
-                    if (resource.data == null) Toast.makeText(
-                        requireContext(),
-                        getString(R.string.get_data_error),
-                        Toast.LENGTH_SHORT
-                    ).show()
+            resource.onFailure { data, message ->
+                val isResumed = viewLifecycleOwner.lifecycle.currentState == Lifecycle.State.RESUMED
+                if (data == null && isResumed) Toast.makeText(
+                    requireContext(),
+                    message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         selectedIndexLiveData.observe(viewLifecycleOwner) { index ->
-            val prayerTime =
-                if (index >= 0) prayerTimeList[index]
-                else prayerTimeList.first()
+            val prayerTime = prayerTimeList.getOrNull(index)
 
             setPrayerTime(prayerTime)
             handleArrowVisibility(index)
@@ -172,8 +169,11 @@ class PrayerTimeFragment : Fragment() {
     }
 
     private fun handleArrowVisibility(index: Int) = binding.apply {
-        ivPrevious.visibleOrInvisible(index > 0)
-        ivNext.visibleOrInvisible(index < viewModel.prayerTimeList.lastIndex)
+        val list = viewModel.prayerTimeList
+        val listLastIndex = viewModel.prayerTimeList.lastIndex
+
+        ivPrevious.visibleOrInvisible(index > 0 && list.isNotEmpty())
+        ivNext.visibleOrInvisible(index < listLastIndex && list.isNotEmpty())
     }
 
     override fun onDestroyView() {
