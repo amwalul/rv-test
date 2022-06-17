@@ -52,4 +52,5 @@
     <string name="asar">Asar</string>
     <string name="maghrib">Maghrib</string>
     <string name="isya">Isya</string>
+    <string name="get_data_error">Failed to get data</string>
 </resources>

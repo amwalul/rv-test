@@ -37,8 +37,10 @@
 
             <ImageView
                 android:id="@+id/ivPrevious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackground"
+                android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_baseline_chevron_left_24" />
 
             <TextView
@@ -46,152 +48,169 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_small"
+                android:text="-"
                 android:textAppearance="?textAppearanceSubtitle1"
                 tools:text="1 January 2022" />
 
             <ImageView
                 android:id="@+id/ivNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?selectableItemBackground"
+                android:padding="@dimen/margin_small"
                 android:src="@drawable/ic_baseline_chevron_right_24" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llPrayerTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/subuh"
-                android:textAppearance="?textAppearanceBody2" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvSubuh"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/subuh"
+                    android:textAppearance="?textAppearanceBody2" />
+
+                <TextView
+                    android:id="@+id/tvSubuh"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/syuruk"
+                    android:textAppearance="?textAppearanceBody2" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvSyuruk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/syuruk"
-                android:textAppearance="?textAppearanceBody2" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvSyuruk"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zohor"
+                    android:textAppearance="?textAppearanceBody2" />
+
+                <TextView
+                    android:id="@+id/tvZohor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/asar"
+                    android:textAppearance="?textAppearanceBody2" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvAsar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/zohor"
-                android:textAppearance="?textAppearanceBody2" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvZohor"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maghrib"
+                    android:textAppearance="?textAppearanceBody2" />
+
+                <TextView
+                    android:id="@+id/tvMaghrib"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
+                android:layout_marginTop="@dimen/margin_small"
+                android:orientation="horizontal">
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/isya"
+                    android:textAppearance="?textAppearanceBody2" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvIsya"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-"
+                    android:textAlignment="textEnd"
+                    android:textAppearance="?textAppearanceBody2"
+                    tools:text="06:36" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/asar"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <TextView
-                android:id="@+id/tvAsar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/maghrib"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <TextView
-                android:id="@+id/tvMaghrib"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/isya"
-                android:textAppearance="?textAppearanceBody2" />
-
-            <TextView
-                android:id="@+id/tvIsya"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="textEnd"
-                android:textAppearance="?textAppearanceBody2"
-                tools:text="06:36" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

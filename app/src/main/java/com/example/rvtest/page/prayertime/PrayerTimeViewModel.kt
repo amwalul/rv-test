@@ -12,8 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrayerTimeViewModel @Inject constructor(
-    private val getPrayerByCurrentZoneId: GetPrayerByCurrentZoneId,
-    private val getCurrentZone: GetCurrentZone
+    getPrayerByCurrentZoneId: GetPrayerByCurrentZoneId,
+    getCurrentZone: GetCurrentZone
 ) : ViewModel() {
 
     val zoneLiveData = getCurrentZone().asLiveData()
@@ -35,5 +35,13 @@ class PrayerTimeViewModel @Inject constructor(
 
     fun setSelectedIndex(index: Int) {
         _selectedIndexLiveData.value = index
+    }
+
+    fun incrementIndex() {
+        _selectedIndexLiveData.value = selectedIndexLiveData.value?.let { it + 1 }
+    }
+
+    fun decrementIndex() {
+        _selectedIndexLiveData.value = selectedIndexLiveData.value?.let { it - 1 }
     }
 }
