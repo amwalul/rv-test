@@ -53,4 +53,6 @@
     <string name="maghrib">Maghrib</string>
     <string name="isya">Isya</string>
     <string name="get_data_error">Failed to get data</string>
+    <string name="location">Location</string>
+    <string name="save">Save</string>
 </resources>

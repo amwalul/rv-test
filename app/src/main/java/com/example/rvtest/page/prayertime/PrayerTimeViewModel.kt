@@ -37,6 +37,10 @@ class PrayerTimeViewModel @Inject constructor(
         _selectedIndexLiveData.value = index
     }
 
+    fun reselectIndex() {
+        _selectedIndexLiveData.value = selectedIndexLiveData.value
+    }
+
     fun incrementIndex() {
         _selectedIndexLiveData.value = selectedIndexLiveData.value?.let { it + 1 }
     }

@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.rvtest.R
 import com.example.rvtest.databinding.FragmentPrayerTimeBinding
 import com.example.rvtest.domain.Failure
@@ -45,6 +46,13 @@ class PrayerTimeFragment : Fragment() {
     }
 
     private fun initViews() = binding.apply {
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.menuSettings) {
+                findNavController().navigate(R.id.action_prayerTimeFragment_to_settingsFragment)
+            }
+            true
+        }
+
         llContent.setOnTouchListener(object : OnSwipeTouchListener(requireContext()) {
             override fun onSwipeRight() {
                 if (!isFirstItem()) showPreviousPrayerTime()
@@ -134,11 +142,15 @@ class PrayerTimeFragment : Fragment() {
             when (resource) {
                 is Success -> resource.data?.run {
                     setPrayerTimeList(prayerTimeList)
-                    setTodayIndex(prayerTimeList)
+
+                    if (selectedIndexLiveData.value == null) setTodayIndex(prayerTimeList)
+                    else reselectIndex()
                 }
                 is Loading -> resource.data?.run {
                     setPrayerTimeList(prayerTimeList)
-                    setTodayIndex(prayerTimeList)
+
+                    if (selectedIndexLiveData.value == null) setTodayIndex(prayerTimeList)
+                    else reselectIndex()
                 }
                 is Failure ->
                     if (resource.data == null) Toast.makeText(
