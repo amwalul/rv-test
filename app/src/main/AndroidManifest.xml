@@ -19,7 +19,9 @@
         <activity
             android:name=".page.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.RVTest">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.RVTest"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
